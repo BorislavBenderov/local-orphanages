@@ -1,4 +1,7 @@
+
 export const MyPosts = () => {
+    
+
     return (
         <section id="my-posts-page">
             <h1 className="title">My Posts</h1>

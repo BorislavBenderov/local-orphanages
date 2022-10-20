@@ -1,4 +1,13 @@
+import { useContext } from "react";
+import { Link, useParams } from 'react-router-dom';
+import { PostContext } from '../../contexts/PostContext';
+
 export const Details = () => {
+    const { posts } = useContext(PostContext);
+    const { postId } = useParams();
+
+    const post = posts.find(x => x._id === postId);
+
     return (
         <section id="details-page">
             <h1 className="title">Post Details</h1>
@@ -6,33 +15,31 @@ export const Details = () => {
                 <div id="details">
                     <div className="image-wrapper">
                         <img
-                            src="./images/clothes.jpeg"
+                            src={post.imageUrl}
                             alt="Material Image"
                             className="post-image"
                         />
                     </div>
                     <div className="info">
-                        <h2 className="title post-title">Clothes</h2>
+                        <h2 className="title post-title">{post.title}</h2>
                         <p className="post-description">
-                            Description: We need warm winter clothes. The sizes are for children
-                            from 2 to 14 years old. If possible, made from cotton materials, no
-                            superficial ones.
+                            {post.description}
                         </p>
-                        <p className="post-address">Address: ul. Hristo Smirnenski 18, Sofia</p>
-                        <p className="post-number">Phone number: 0888222345</p>
+                        <p className="post-address">{post.address}</p>
+                        <p className="post-number">Phone number: {post.phone}</p>
                         <p className="donate-Item">Donate Materials: 0</p>
                         {/*Edit and Delete are only for creator*/}
                         <div className="btns">
-                            <a href="#" className="edit-btn btn">
+                            <Link href={`/edit/${post._id}`} className="edit-btn btn">
                                 Edit
-                            </a>
-                            <a href="#" className="delete-btn btn">
+                            </Link>
+                            <Link to="#" className="delete-btn btn">
                                 Delete
-                            </a>
+                            </Link>
                             {/*Bonus - Only for logged-in users ( not authors )*/}
-                            <a href="#" className="donate-btn btn">
+                            <Link to="#" className="donate-btn btn">
                                 Donate
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
