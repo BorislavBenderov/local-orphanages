@@ -1,4 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import * as postService from './services/postService';
+import { PostContext } from './contexts/PostContext';
 
 import { Header } from "./components/Header/Header";
 import { Home } from "./components/Home/Home";
@@ -10,10 +13,19 @@ import { MyPosts } from "./components/MyPosts/MyPosts";
 import { Details } from "./components/Details/Details";
 import { Edit } from "./components/Edit/Edit";
 
+
 function App() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    postService.getAll()
+    .then(result => setPosts(Object.values(result)))
+  }, []);
+
   return (
     <div className="App">
       <Header />
+      <PostContext.Provider value={posts}>
       <main id="main-content">
         <Routes>
           <Route path='/' element={<Home />}/>
@@ -26,6 +38,7 @@ function App() {
           <Route path='/edit/:postId' element={<Edit />}/>
         </Routes>
       </main>
+      </PostContext.Provider>
     </div>
   );
 }
