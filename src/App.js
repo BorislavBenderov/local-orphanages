@@ -29,8 +29,12 @@ function App() {
     setAuth(userdata)
   }
 
+  const onLogout = () => {
+    setAuth({});
+  }
+
   return (
-    <AuthContext.Provider value={{auth, onLogin}}>
+    <AuthContext.Provider value={{auth, onLogin, onLogout}}>
       <div className="App">
         <Header />
         <PostContext.Provider value={{ posts }}>
