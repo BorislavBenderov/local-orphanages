@@ -1,12 +1,21 @@
 import { useContext } from "react";
 import { Link, useParams } from 'react-router-dom';
 import { PostContext } from '../../contexts/PostContext';
+import { AuthContext } from '../../contexts/AuthContext'
 
 export const Details = () => {
     const { posts } = useContext(PostContext);
     const { postId } = useParams();
+    const { auth } = useContext(AuthContext);
 
     const post = posts.find(x => x._id === postId);
+    const isOwner = auth._id === post._ownerId;
+
+    let isLogged = false;
+    if (auth.email) {
+        isLogged = true;
+    }
+
 
     return (
         <section id="details-page">
@@ -29,18 +38,23 @@ export const Details = () => {
                         <p className="post-number">Phone number: {post.phone}</p>
                         <p className="donate-Item">Donate Materials: 0</p>
                         {/*Edit and Delete are only for creator*/}
-                        <div className="btns">
-                            <Link href={`/edit/${post._id}`} className="edit-btn btn">
-                                Edit
-                            </Link>
-                            <Link to="#" className="delete-btn btn">
-                                Delete
-                            </Link>
-                            {/*Bonus - Only for logged-in users ( not authors )*/}
-                            <Link to="#" className="donate-btn btn">
-                                Donate
-                            </Link>
-                        </div>
+                        {!isLogged ? ''
+                            :
+                            <div className="btns">
+                                {isOwner
+                                    ? <>
+                                        <Link href={`/edit/${post._id}`} className="edit-btn btn">
+                                            Edit
+                                        </Link>
+                                        <Link to="#" className="delete-btn btn">
+                                            Delete
+                                        </Link>
+                                    </>
+                                    : <Link to="#" className="donate-btn btn">
+                                        Donate
+                                    </Link>}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
