@@ -43,7 +43,7 @@ export const Details = () => {
                             <div className="btns">
                                 {isOwner
                                     ? <>
-                                        <Link href={`/edit/${post._id}`} className="edit-btn btn">
+                                        <Link to={`/edit/${post._id}`} className="edit-btn btn">
                                             Edit
                                         </Link>
                                         <Link to="#" className="delete-btn btn">

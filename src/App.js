@@ -39,11 +39,15 @@ function App() {
     ]))
   }
 
+  const onEdit = (postId, postdata) => {
+    setPosts(state => state.map(x => x._id === postId ? postdata : x));
+  }
+
   return (
     <AuthContext.Provider value={{auth, onLogin, onLogout}}>
       <div className="App">
         <Header />
-        <PostContext.Provider value={{ posts, onCreate }}>
+        <PostContext.Provider value={{ posts, onCreate, onEdit }}>
           <main id="main-content">
             <Routes>
               <Route path='/' element={<Home />} />
