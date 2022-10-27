@@ -43,11 +43,15 @@ function App() {
     setPosts(state => state.map(x => x._id === postId ? postdata : x));
   }
 
+  const onDelete = (postId) => {
+    setPosts(state => state.filter(x => x._id !== postId));
+  }
+
   return (
     <AuthContext.Provider value={{auth, onLogin, onLogout}}>
       <div className="App">
         <Header />
-        <PostContext.Provider value={{ posts, onCreate, onEdit }}>
+        <PostContext.Provider value={{ posts, onCreate, onEdit, onDelete }}>
           <main id="main-content">
             <Routes>
               <Route path='/' element={<Home />} />

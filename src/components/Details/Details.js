@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { PostContext } from '../../contexts/PostContext';
 import { AuthContext } from '../../contexts/AuthContext'
+import * as postService from '../../services/postService';
 
 export const Details = () => {
-    const { posts } = useContext(PostContext);
+    const navigate = useNavigate();
+    const { posts, onDelete } = useContext(PostContext);
     const { postId } = useParams();
     const { auth } = useContext(AuthContext);
 
@@ -16,6 +18,17 @@ export const Details = () => {
         isLogged = true;
     }
 
+    const deleteHandler = () => {
+        const confirmation = window.confirm('Are you sure you want to delete this post?');
+
+        if (confirmation) {
+            postService.remove(postId)
+            .then(() => {
+                onDelete(postId);
+                navigate('/myposts');
+            })
+        }
+    }
 
     return (
         <section id="details-page">
@@ -46,9 +59,9 @@ export const Details = () => {
                                         <Link to={`/edit/${post._id}`} className="edit-btn btn">
                                             Edit
                                         </Link>
-                                        <Link to="#" className="delete-btn btn">
+                                        <button onClick={deleteHandler} className="delete-btn btn">
                                             Delete
-                                        </Link>
+                                        </button>
                                     </>
                                     : <Link to="#" className="donate-btn btn">
                                         Donate
