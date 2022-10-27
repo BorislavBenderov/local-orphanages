@@ -33,11 +33,17 @@ function App() {
     setAuth({});
   }
 
+  const onCreate = (newPost) => {
+    setPosts(oldPosts => ([
+      ...oldPosts, newPost
+    ]))
+  }
+
   return (
     <AuthContext.Provider value={{auth, onLogin, onLogout}}>
       <div className="App">
         <Header />
-        <PostContext.Provider value={{ posts }}>
+        <PostContext.Provider value={{ posts, onCreate }}>
           <main id="main-content">
             <Routes>
               <Route path='/' element={<Home />} />

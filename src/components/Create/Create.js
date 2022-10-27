@@ -1,7 +1,28 @@
+import * as postService from '../../services/postService';
+import { PostContext } from '../../contexts/PostContext';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 export const Create = () => {
+    const { onCreate } = useContext(PostContext);
+    const navigate = useNavigate();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        const userdata = Object.fromEntries(new FormData(e.target));
+        
+        postService.create(userdata)
+        .then(newPost => {
+            onCreate(newPost);
+            navigate('/');
+        })
+    }
+
+
     return (
         <section id="create-page" className="auth">
-            <form id="create">
+            <form id="create" onSubmit={onSubmit}>
                 <h1 className="title">Create Post</h1>
                 <article className="input-group">
                     <label htmlFor="title">Post Title</label>
